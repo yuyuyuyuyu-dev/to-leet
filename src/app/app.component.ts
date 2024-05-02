@@ -8,6 +8,7 @@ import { ToLeetPipe } from "./to-leet.pipe";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Clipboard } from "@angular/cdk/clipboard";
 
 @Component({
   selector: "app-root",
@@ -29,13 +30,16 @@ export class AppComponent {
   str = new FormControl("");
 
   constructor(
+    private clipboard: Clipboard,
     private toLeetService: ToLeetService,
     private snackbar: MatSnackBar,
   ) { }
 
   onCopyToClipboardButtonClickedardButtonClicked() {
-    navigator.clipboard.writeText(this.toLeetService.toLeet(this.str.value!!))
-    this.openSnackbar("コピーしました")
+    const copyWasSuccess = this.clipboard.copy(this.toLeetService.toLeet(this.str.value!!));
+    this.openSnackbar(
+      copyWasSuccess ? "コピーしました" : "コピーできませんでした"
+    );
   }
 
   private openSnackbar(message: string) {
