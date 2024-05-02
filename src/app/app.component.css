@@ -1,0 +1,13 @@
+mat-toolbar {
+  margin-bottom: 20px;
+}
+
+main {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+main > * {
+  width: 100%;
+}

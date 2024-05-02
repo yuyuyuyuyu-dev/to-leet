@@ -1,5 +1,20 @@
 <mat-toolbar color="accent">
-  <span>hogeほげ</span>
+  <span>{{ title }}</span>
 </mat-toolbar>
-<h1>hogeほげ</h1>
-<p>hoge</p>
+
+<main>
+  <mat-form-field>
+    <mat-label>
+      {{ "Leet表記へ変換したい文字を入力してください" | toLeet }}
+    </mat-label>
+    <input matInput [formControl]="str" />
+  </mat-form-field>
+
+  <p>{{ str.value || "" | toLeet }}</p>
+
+  <button mat-flat-button color="primary" (click)="onCopyToClipboardButtonClickedardButtonClicked()"
+    [disabled]="str.value == ''">
+    <mat-icon>content_copy</mat-icon>
+    クリップボードへコピー
+  </button>
+</main>
