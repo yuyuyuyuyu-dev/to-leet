@@ -5,14 +5,14 @@
 <main>
   <mat-form-field>
     <mat-label>
-      {{ "Leet表記へ変換したい文字を入力してください" | toLeet }}
+      {{ "Leet表記にしたい文字を入力してください" | toLeet }}
     </mat-label>
     <input matInput [formControl]="str" />
   </mat-form-field>
 
   <p>{{ str.value || "" | toLeet }}</p>
 
-  <button mat-flat-button color="primary" (click)="onCopyToClipboardButtonClickedardButtonClicked()"
+  <button mat-flat-button color="primary" (click)="onCopyToClipboardButtonClicked()"
     [disabled]="str.value == ''">
     <mat-icon>content_copy</mat-icon>
     クリップボードへコピー

@@ -35,7 +35,7 @@ export class AppComponent {
     private snackbar: MatSnackBar,
   ) { }
 
-  onCopyToClipboardButtonClickedardButtonClicked() {
+  onCopyToClipboardButtonClicked() {
     const copyWasSuccess = this.clipboard.copy(this.toLeetService.toLeet(this.str.value!!));
     this.openSnackbar(
       copyWasSuccess ? "コピーしました" : "コピーできませんでした"
