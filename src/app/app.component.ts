@@ -36,9 +36,11 @@ export class AppComponent {
   ) { }
 
   onCopyToClipboardButtonClicked() {
-    const copyWasSuccess = this.clipboard.copy(this.toLeetService.toLeet(this.str.value!!));
+    const copyWasSuccess = this.clipboard.copy(
+      this.toLeetService.toLeet(this.str.value!!),
+    );
     this.openSnackbar(
-      copyWasSuccess ? "コピーしました" : "コピーできませんでした"
+      copyWasSuccess ? "コピーしました" : "コピーできませんでした",
     );
   }
 
