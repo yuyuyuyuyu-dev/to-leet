@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import _licenses from "../../assets/licenses.json";
+import _licenses from "../../assets/3rd-party-licenses.json";
 import { RouterOutlet } from "@angular/router";
 
 @Component({

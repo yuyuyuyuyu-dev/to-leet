@@ -8,8 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:to-leet": "node dist/to-leet/server/server.mjs",
-    "postinstall": "license-checker --direct --json --customPath licenses_format.json --out src/assets/licenses.json",
-    "postuninstall": "license-checker --direct --json --customPath licenses_format.json --out src/assets/licenses.json"
+    "postinstall": "license-checker --direct --json --customPath licenses_format.json --out src/assets/3rd-party-licenses.json",
+    "postuninstall": "license-checker --direct --json --customPath licenses_format.json --out src/assets/3rd-party-licenses.json"
   },
   "private": true,
   "dependencies": {
