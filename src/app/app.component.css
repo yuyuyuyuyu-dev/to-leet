@@ -1,18 +1,8 @@
-* {
-  word-break: keep-all;
-  overflow-wrap: anywhere;
-}
-
 mat-toolbar {
   margin-bottom: 20px;
 }
 
-main {
-  width: calc(100% - 22px);
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-main>* {
-  width: 100%;
+#title {
+  color: inherit;
+  text-decoration: none;
 }
