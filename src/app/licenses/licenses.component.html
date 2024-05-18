@@ -1,0 +1,12 @@
+<main>
+  @for (license of licenses; track license.name) {
+  @defer {
+  <h3>{{ license.name }}</h3>
+  <p>License</p>
+  <p>{{ license.licenseText }}</p>
+  <br />
+  } @loading {
+  <p>loading...</p>
+  }
+  }
+</main>
