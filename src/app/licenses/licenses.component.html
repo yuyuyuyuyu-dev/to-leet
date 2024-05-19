@@ -1,12 +1,15 @@
 <main>
   @for (license of licenses; track license.name) {
-  @defer {
-  <h3>{{ license.name }}</h3>
-  <p>License</p>
-  <p>{{ license.licenseText }}</p>
-  <br />
-  } @loading {
-  <p>loading...</p>
-  }
+  <mat-expansion-panel id="license-panel">
+    <mat-expansion-panel-header>
+      {{ license.name }}
+    </mat-expansion-panel-header>
+    <p>{{ license.licenses }}</p>
+    @defer {
+    <p>{{ license.licenseText }}</p>
+    } @loading {
+    <p>Loading...</p>
+    }
+  </mat-expansion-panel>
   }
 </main>

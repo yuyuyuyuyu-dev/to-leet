@@ -4,8 +4,7 @@
     {{ title }}
     } @else {
     <button mat-button>
-      <mat-icon>arrow_back_ios</mat-icon>
-      {{ title }}
+      <mat-icon>arrow_back</mat-icon>
     </button>
     }
   </a>
@@ -14,6 +13,7 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
+    <a mat-menu-item routerLink="3rd-party-licenses">サードパーティライセンス</a>
     <a mat-menu-item href="https://github.com/yu-ko-ba/to-leet" target="_blank" rel="noopner noreferrer">
       <mat-icon>open_in_new</mat-icon>
       ソースコード
@@ -23,7 +23,6 @@
       <mat-icon>open_in_new</mat-icon>
       ライセンス
     </a>
-    <a mat-menu-item routerLink="3rd-party-licenses">サードパーティライセンス</a>
   </mat-menu>
 </mat-toolbar>
 
