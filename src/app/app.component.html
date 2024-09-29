@@ -1,29 +1,8 @@
-<mat-toolbar color="accent">
-  <a id="title" routerLink="/">
-    @if (router.url === "/") {
-    {{ title }}
-    } @else {
-    <button mat-button>
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    }
-  </a>
-  <span class="spacer"></span>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <a mat-menu-item routerLink="3rd-party-licenses">サードパーティライセンス</a>
-    <a mat-menu-item href="https://github.com/yu-ko-ba/to-leet" target="_blank" rel="noopner noreferrer">
-      <mat-icon>open_in_new</mat-icon>
-      ソースコード
-    </a>
-    <a mat-menu-item href="https://raw.githubusercontent.com/yu-ko-ba/to-leet/main/LICENSE" target="_blank"
-      rel="noopner noreferrer">
-      <mat-icon>open_in_new</mat-icon>
-      ライセンス
-    </a>
-  </mat-menu>
-</mat-toolbar>
+<ngx-mat-my-simple-appbar
+  [appName]="title"
+  thirdPartyLicensesLink="/third-party-licenses"
+  repositoryUrl="https://github.com/yu-ko-ba/to-leet"
+  licenseUrl="https://github.com/yu-ko-ba/to-leet/raw/refs/heads/main/LICENSE"
+/>
 
 <router-outlet />

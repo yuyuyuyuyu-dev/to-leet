@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
-import _licenses from "../../assets/3rd-party-licenses.json";
-import { RouterOutlet } from "@angular/router";
-import { MatExpansionModule } from "@angular/material/expansion";
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import {
+  License,
+  NgxMatThirdPartyLicensesListViewComponent,
+} from 'ngx-mat-third-party-licenses-list-view';
+import _licenses from '../../../public/third-party-licenses.json';
 
 @Component({
-  selector: "app-licenses",
+  selector: 'app-licenses',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    MatExpansionModule,
-  ],
-  templateUrl: "./licenses.component.html",
-  styleUrl: "./licenses.component.css",
+  imports: [RouterOutlet, NgxMatThirdPartyLicensesListViewComponent],
+  templateUrl: './licenses.component.html',
+  styleUrl: './licenses.component.css',
 })
 export class LicensesComponent {
-  licenses = Object.values(_licenses);
+  licenses = _licenses as License[];
 }

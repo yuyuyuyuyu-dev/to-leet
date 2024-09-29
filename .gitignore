@@ -41,4 +41,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-/src/assets/3rd-party-licenses.json
+# auto generated file by ngx-mat-third-party-licenses-list-view
+public/third-party-licenses.json
