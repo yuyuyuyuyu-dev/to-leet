@@ -8,35 +8,37 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:to-leet": "node dist/to-leet/server/server.mjs",
-    "postinstall": "license-checker --relativeLicensePath --direct --json --customPath licenses_format.json --out src/assets/3rd-party-licenses.json",
-    "postuninstall": "license-checker --relativeLicensePath --direct --json --customPath licenses_format.json --out src/assets/3rd-party-licenses.json",
-    "generate-icons": "ngx-pwa-icons"
+    "generate-icons": "ngx-pwa-icons",
+    "postinstall": "npx generate-third-party-licenses-json --out-file-path ./public/third-party-licenses.json",
+    "postuninstall": "npx generate-third-party-licenses-json --out-file-path ./public/third-party-licenses.json"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.3.9",
-    "@angular/cdk": "^17.3.9",
-    "@angular/common": "^17.3.9",
-    "@angular/compiler": "^17.3.9",
-    "@angular/core": "^17.3.9",
-    "@angular/forms": "^17.3.9",
-    "@angular/material": "^17.3.9",
-    "@angular/platform-browser": "^17.3.9",
-    "@angular/platform-browser-dynamic": "^17.3.9",
-    "@angular/platform-server": "^17.3.9",
-    "@angular/router": "^17.3.9",
-    "@angular/service-worker": "^17.3.9",
-    "@angular/ssr": "^17.3.7",
+    "@angular/animations": "^18.2.6",
+    "@angular/cdk": "^18.2.6",
+    "@angular/common": "^18.2.6",
+    "@angular/compiler": "^18.2.6",
+    "@angular/core": "^18.2.6",
+    "@angular/forms": "^18.2.6",
+    "@angular/material": "^18.2.6",
+    "@angular/platform-browser": "^18.2.6",
+    "@angular/platform-browser-dynamic": "^18.2.6",
+    "@angular/platform-server": "^18.2.6",
+    "@angular/router": "^18.2.6",
+    "@angular/service-worker": "^18.2.6",
+    "@angular/ssr": "^18.2.6",
     "@fontsource/yomogi": "^5.0.19",
+    "@yu-ko-ba/ngx-mat-my-simple-appbar": "^0.0.1",
     "express": "^4.19.2",
+    "ngx-mat-third-party-licenses-list-view": "^0.0.3",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "~0.14.6"
+    "zone.js": "~0.14.10"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.7",
-    "@angular/cli": "^17.3.7",
-    "@angular/compiler-cli": "^17.3.9",
+    "@angular-devkit/build-angular": "^18.2.6",
+    "@angular/cli": "^18.2.6",
+    "@angular/compiler-cli": "^18.2.6",
     "@types/express": "^4.17.21",
     "@types/jasmine": "~5.1.4",
     "@types/node": "^20.12.12",
@@ -48,10 +50,10 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "license-checker": "^25.0.1",
     "ngx-pwa-icons": "^0.1.2",
-    "typescript": "~5.4.5"
+    "typescript": "^5.5.4"
   },
   "volta": {
-    "node": "20.12.2",
-    "npm": "10.7.0"
+    "node": "20.17.0",
+    "npm": "10.8.3"
   }
 }

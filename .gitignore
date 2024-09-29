@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# auto generated file by ngx-mat-third-party-licenses-list-view
+public/third-party-licenses.json

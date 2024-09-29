@@ -1,26 +1,14 @@
-import { Component } from "@angular/core";
-import { Router, RouterLink, RouterOutlet } from "@angular/router";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatMenuModule } from "@angular/material/menu";
+import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { NgxMatMySimpleAppbarComponent } from '@yu-ko-ba/ngx-mat-my-simple-appbar';
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterLink,
-    RouterOutlet,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-  ],
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.css",
+  imports: [RouterLink, RouterOutlet, NgxMatMySimpleAppbarComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = "to-leet";
-
-  router = new Router();
+  title = 'to-leet';
 }
