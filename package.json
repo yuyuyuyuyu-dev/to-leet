@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "dev": "ng build && npx http-server -p 8080 -c-1 dist/to-leet/browser/",
+    "app": "ng build && npx http-server -p 8080 -c-1 dist/to-leet/browser/",
     "postinstall": "npx generate-third-party-licenses-json --out-file-path ./public/third-party-licenses.json",
     "postuninstall": "npx generate-third-party-licenses-json --out-file-path ./public/third-party-licenses.json"
   },
