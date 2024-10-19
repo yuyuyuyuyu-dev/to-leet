@@ -19,7 +19,7 @@ import { MatInputModule } from "@angular/material/input";
     ToLeetPipe,
   ],
   templateUrl: "./home.component.html",
-  styleUrl: "./home.component.css",
+  styleUrl: "./home.component.scss",
 })
 export class HomeComponent {
   str = new FormControl("");

@@ -11,7 +11,7 @@ import _licenses from '../../../public/third-party-licenses.json';
   standalone: true,
   imports: [RouterOutlet, NgxMatThirdPartyLicensesListViewComponent],
   templateUrl: './licenses.component.html',
-  styleUrl: './licenses.component.css',
+  styleUrl: './licenses.component.scss',
 })
 export class LicensesComponent {
   licenses = _licenses as License[];
