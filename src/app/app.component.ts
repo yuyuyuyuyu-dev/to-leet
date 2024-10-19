@@ -7,7 +7,7 @@ import { NgxMatMySimpleAppbarComponent } from '@yu-ko-ba/ngx-mat-my-simple-appba
   standalone: true,
   imports: [RouterLink, RouterOutlet, NgxMatMySimpleAppbarComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'to-leet';
