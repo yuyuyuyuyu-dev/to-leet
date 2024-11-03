@@ -25,6 +25,7 @@
     "@angular/router": "^18.2.0",
     "@angular/service-worker": "^18.2.0",
     "@fontsource/yomogi": "^5.1.0",
+    "@yu-ko-ba/ngx-mat-little-diva-theme": "^0.0.0",
     "@yu-ko-ba/ngx-mat-my-simple-appbar": "^0.0.4",
     "ngx-mat-third-party-licenses-list-view": "^0.0.7",
     "rxjs": "~7.8.0",
