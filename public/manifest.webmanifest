@@ -1,7 +1,7 @@
 {
   "name": "to-leet",
   "short_name": "to-leet",
-  "theme_color": "#f8fcff",
+  "theme_color": "#d6ebfd",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
