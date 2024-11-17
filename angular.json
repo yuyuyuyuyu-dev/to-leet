@@ -32,7 +32,7 @@
               }
             ],
             "styles": [
-              "@yu-ko-ba/ngx-mat-little-diva-theme/little-diva-theme.scss",
+              "@yu-ko-ba/ngx-mat-little-diva-theme/little-diva-theme.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -93,7 +93,7 @@
               }
             ],
             "styles": [
-              "@yu-ko-ba/ngx-mat-little-diva-theme/little-diva-theme.scss",
+              "@yu-ko-ba/ngx-mat-little-diva-theme/little-diva-theme.css",
               "src/styles.scss"
             ],
             "scripts": []
