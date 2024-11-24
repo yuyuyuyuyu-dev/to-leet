@@ -9,17 +9,16 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 
 @Component({
-  selector: "app-home",
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    ToLeetPipe,
-  ],
-  templateUrl: "./home.component.html",
-  styleUrl: "./home.component.scss",
+    selector: "app-home",
+    imports: [
+        ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        ToLeetPipe,
+    ],
+    templateUrl: "./home.component.html",
+    styleUrl: "./home.component.scss"
 })
 export class HomeComponent {
   str = new FormControl("");

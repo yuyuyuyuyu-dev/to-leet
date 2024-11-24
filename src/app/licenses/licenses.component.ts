@@ -7,11 +7,10 @@ import {
 import _licenses from '../../../public/third-party-licenses.json';
 
 @Component({
-  selector: 'app-licenses',
-  standalone: true,
-  imports: [RouterOutlet, NgxMatThirdPartyLicensesListViewComponent],
-  templateUrl: './licenses.component.html',
-  styleUrl: './licenses.component.scss',
+    selector: 'app-licenses',
+    imports: [RouterOutlet, NgxMatThirdPartyLicensesListViewComponent],
+    templateUrl: './licenses.component.html',
+    styleUrl: './licenses.component.scss'
 })
 export class LicensesComponent {
   licenses = _licenses as License[];
