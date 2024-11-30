@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { LicensesComponent } from './licenses/licenses.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './ui/pages/home/home.component';
+import { LicensesComponent } from './ui/pages/licenses/licenses.component';
 
 export const routes: Routes = [
   {

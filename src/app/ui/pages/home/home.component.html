@@ -8,7 +8,12 @@
 
   <p>{{ str.value || "" | toLeet }}</p>
 
-  <button mat-flat-button color="primary" (click)="onCopyToClipboardButtonClicked()" [disabled]="str.value == ''">
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onCopyToClipboardButtonClicked()"
+    [disabled]="str.value == ''"
+  >
     <mat-icon>content_copy</mat-icon>
     クリップボードへコピー
   </button>

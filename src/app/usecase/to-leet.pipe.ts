@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ToLeetService } from './to-leet.service';
+import { ToLeetService } from '../domain/to-leet.service';
 
 @Pipe({
   name: 'toLeet',
-  standalone: true
+  standalone: true,
 })
 export class ToLeetPipe implements PipeTransform {
   constructor(private toLeetService: ToLeetService) {}
@@ -11,5 +11,4 @@ export class ToLeetPipe implements PipeTransform {
   transform(value: string): string {
     return this.toLeetService.toLeet(value);
   }
-
 }
