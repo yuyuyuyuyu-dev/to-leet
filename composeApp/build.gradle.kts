@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.composeHotReload)
 
     alias(libs.plugins.aboutLibraries)
+
+    alias(libs.plugins.yuyuyuyuyu.composePwa)
 }
 
 kotlin {

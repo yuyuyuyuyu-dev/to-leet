@@ -11,6 +11,7 @@ aboutLibraries = "12.2.4"
 
 myMaterialTheme = "0.3.0"
 simpleTopAppBar = "0.3.1"
+composePwa = "0.3.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -34,3 +35,5 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
+
+yuyuyuyuyu-composePwa = { id = "dev.yuyuyuyuyu.composepwa", version.ref = "composePwa" }
