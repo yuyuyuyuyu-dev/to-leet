@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ToLeet</string>
+    <string name="open_source_licenses">Open source licenses</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="to_leet_input_label">Enter text to convert to Leetspeak</string>
+</resources>
