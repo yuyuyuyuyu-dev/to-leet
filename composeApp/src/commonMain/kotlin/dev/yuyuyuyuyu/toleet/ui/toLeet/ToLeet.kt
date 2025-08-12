@@ -63,7 +63,7 @@ fun ToLeet(state: ToLeetScreen.State, modifier: Modifier = Modifier) {
                 Text(state.leetText)
 
                 CopyToClipboardButton(
-                    textToCopy = inputText,
+                    textToCopy = state.leetText,
                     enabled = inputText.isNotEmpty(),
                     snackbarHostState = snackbarHostState,
                 )
