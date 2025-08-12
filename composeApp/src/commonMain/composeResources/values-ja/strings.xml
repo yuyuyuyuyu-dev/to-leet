@@ -2,4 +2,5 @@
     <string name="open_source_licenses">オープンソース ライセンス</string>
     <string name="copy_to_clipboard">クリップボードへコピー</string>
     <string name="copied_to_clipboard">クリップボードへコピーしました</string>
+    <string name="to_leet_input_label">L33t表記にしたいテキストを入力してください</string>
 </resources>

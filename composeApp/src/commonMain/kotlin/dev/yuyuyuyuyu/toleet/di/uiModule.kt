@@ -13,7 +13,9 @@ val uiModule = module {
     single {
         Circuit.Builder()
 
-            .addPresenter<ToLeetScreen, ToLeetScreen.State>(ToLeetPresenter())
+            .addPresenter<ToLeetScreen, ToLeetScreen.State>(
+                ToLeetPresenter(toLeetUseCase = get())
+            )
             .addUi<ToLeetScreen, ToLeetScreen.State> { state, modifier ->
                 ToLeet(state, modifier)
             }

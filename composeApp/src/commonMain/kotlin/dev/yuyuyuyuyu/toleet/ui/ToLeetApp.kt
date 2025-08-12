@@ -12,6 +12,7 @@ import com.slack.circuit.foundation.rememberCircuitNavigator
 import dev.yuyuyuyuyu.genkaikor.ui.openSourceLicenseList.OpenSourceLicenseListScreen
 import dev.yuyuyuyuyu.mymaterialtheme.MyMaterialTheme
 import dev.yuyuyuyuyu.simpleTopAppBar.SimpleTopAppBar
+import dev.yuyuyuyuyu.toleet.di.domainModule
 import dev.yuyuyuyuyu.toleet.di.uiModule
 import dev.yuyuyuyuyu.toleet.ui.toLeet.ToLeetScreen
 import org.jetbrains.compose.resources.stringResource
@@ -33,7 +34,7 @@ fun ToLeetApp() {
 
     KoinApplication(
         application = {
-            modules(uiModule)
+            modules(uiModule, domainModule)
         },
     ) {
         MyMaterialTheme {
