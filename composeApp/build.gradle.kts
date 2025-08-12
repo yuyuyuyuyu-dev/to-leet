@@ -7,11 +7,13 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+
+    alias(libs.plugins.aboutLibraries)
 }
 
 kotlin {
     jvm()
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         outputModuleName.set("composeApp")
@@ -31,7 +33,7 @@ kotlin {
         }
         binaries.executable()
     }
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -42,6 +44,16 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
+            implementation(libs.circuit)
+            implementation(libs.aboutlibraries.compose.m3)
+
+            implementation(libs.yuyuyuyuyu.myMaterialTheme)
+            implementation(libs.yuyuyuyuyu.simpleTopAppBar)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
