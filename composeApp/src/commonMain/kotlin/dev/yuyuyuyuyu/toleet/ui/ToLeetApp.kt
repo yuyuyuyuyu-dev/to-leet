@@ -1,9 +1,11 @@
 package dev.yuyuyuyuyu.toleet.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalUriHandler
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.CircuitCompositionLocals
@@ -30,15 +32,22 @@ fun ToLeetApp() {
     val navigator = rememberCircuitNavigator(backStack) {}
     val currentScreen = backStack.topRecord?.screen
 
+    val focusManager = LocalFocusManager.current
     val uriHandler = LocalUriHandler.current
 
     KoinApplication(
         application = {
+            printLogger()
             modules(uiModule, domainModule)
         },
     ) {
         MyMaterialTheme {
             Scaffold(
+                modifier = Modifier.clickable(
+                    interactionSource = null,
+                    indication = null,
+                    onClick = { focusManager.clearFocus() },
+                ),
                 topBar = {
                     SimpleTopAppBar(
                         title = when (currentScreen) {
