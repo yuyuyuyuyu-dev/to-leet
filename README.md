@@ -1,5 +1,8 @@
 # ToLeet
 
+[![Deploy](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/deploy.yml/badge.svg)](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/deploy.yml)
+[![Tests](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/tests.yml/badge.svg)](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/tests.yml)
+
 L33t表記へ変換するツールです
 
 ### スクリーンショット
