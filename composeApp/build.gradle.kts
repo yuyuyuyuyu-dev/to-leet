@@ -1,82 +1,92 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.composeHotReload)
-
     alias(libs.plugins.aboutLibraries)
-
-    alias(libs.plugins.yuyuyuyuyu.composePwa)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.composePwa)
 }
 
 kotlin {
-    jvm()
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        outputModuleName.set("composeApp")
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
-            }
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
+    }
+    
+    js {
+        browser()
         binaries.executable()
     }
-
+    
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+    
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.activity.compose)
+        }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-
-            implementation(project.dependencies.platform(libs.koin.bom))
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.koin.compose.viewmodel.navigation)
-            implementation(libs.circuit)
             implementation(libs.aboutlibraries.compose.m3)
             implementation(compose.materialIconsExtended)
-
-            implementation(libs.yuyuyuyuyu.myMaterialTheme)
-            implementation(libs.yuyuyuyuyu.simpleTopAppBar)
+            implementation(libs.jetbrains.navigation3.ui)
+            implementation(libs.jetbrains.material3.adaptiveNavigation3)
+            implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.simpleTopAppBar)
+            implementation(libs.myMaterialTheme)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
-        }
     }
 }
 
+android {
+    namespace = "dev.yuyuyuyuyu.toleet"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-compose.desktop {
-    application {
-        mainClass = "dev.yuyuyuyuyu.toleet.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "dev.yuyuyuyuyu.toleet"
-            packageVersion = "1.0.0"
+    defaultConfig {
+        applicationId = "dev.yuyuyuyuyu.toleet"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = 1
+        versionName = "1.0"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
+
+dependencies {
+    debugImplementation(libs.compose.uiTooling)
+}
+
