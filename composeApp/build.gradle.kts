@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.aboutLibraries)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.composePwa)
 }
 
 kotlin {
