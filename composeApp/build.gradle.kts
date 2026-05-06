@@ -50,6 +50,7 @@ kotlin {
             implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.simpleTopAppBar)
+            implementation(libs.myMaterialTheme)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
