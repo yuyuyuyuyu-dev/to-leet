@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -28,11 +27,12 @@ fun MainScreen() {
     val uriHandler = LocalUriHandler.current
 
     Scaffold(
-        modifier = Modifier.clickable(
-            interactionSource = null,
-            indication = null,
-            onClick = { focusManager.clearFocus() },
-        ),
+        modifier =
+            Modifier.clickable(
+                interactionSource = null,
+                indication = null,
+                onClick = { focusManager.clearFocus() },
+            ),
         topBar = {
             SimpleTopAppBar(
                 title =
