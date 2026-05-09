@@ -27,7 +27,10 @@ import toleet.composeapp.generated.resources.Res
 import toleet.composeapp.generated.resources.to_leet_input_label
 
 @Composable
-fun ToLeetScreen(viewModel: ToLeetViewModel, modifier: Modifier = Modifier) {
+fun ToLeetScreen(
+    viewModel: ToLeetViewModel,
+    modifier: Modifier = Modifier,
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
@@ -49,9 +52,10 @@ fun ToLeetScreen(viewModel: ToLeetViewModel, modifier: Modifier = Modifier) {
                     value = uiState.inputText,
                     onValueChange = viewModel::textFieldOnChange,
                     label = { Text(stringResource(Res.string.to_leet_input_label)) },
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Done,
-                    ),
+                    keyboardOptions =
+                        KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done,
+                        ),
                     keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                 )
 
