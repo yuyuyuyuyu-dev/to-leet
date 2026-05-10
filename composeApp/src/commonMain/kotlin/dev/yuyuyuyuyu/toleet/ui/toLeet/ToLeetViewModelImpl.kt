@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.update
 
 class ToLeetViewModelImpl(
     private val toLeetUseCase: ToLeetUseCase = ToLeetUseCase(),
-) : ViewModel(), ToLeetViewModel {
+) : ViewModel(),
+    ToLeetViewModel {
     private val _uiState = MutableStateFlow(ToLeetUiState(inputText = "", leetText = ""))
     override val uiState: StateFlow<ToLeetUiState> = _uiState.asStateFlow()
 
