@@ -21,7 +21,7 @@ kotlinxSerialization = "1.11.0"
 simpleTopAppBar = "0.4.0"
 myMaterialTheme = "0.4.0"
 composePwa = "0.6.1"
-spotless = "8.5.0"
+spotless = "8.5.1"
 kotlinxCoroutines = "1.11.0"
 
 [libraries]
