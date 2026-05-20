@@ -12,8 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -29,7 +28,7 @@ fun CopyToClipboardButton(
     snackbarHostState: SnackbarHostState? = null,
 ) {
     val scope = rememberCoroutineScope()
-    val clipboardManager = LocalClipboardManager.current
+    val clipboard = LocalClipboard.current
 
     val copiedToClipboardMessage = stringResource(Res.string.copied_to_clipboard)
     val copyToClipboardButtonText = stringResource(Res.string.copy_to_clipboard)
@@ -38,9 +37,9 @@ fun CopyToClipboardButton(
         modifier = modifier,
         enabled = enabled,
         onClick = {
-            clipboardManager.setText(AnnotatedString(textToCopy))
-            snackbarHostState?.let {
-                scope.launch {
+            scope.launch {
+                clipboard.setClipEntry(createClipEntry(textToCopy))
+                snackbarHostState?.let {
                     it.showSnackbar(copiedToClipboardMessage)
                 }
             }
