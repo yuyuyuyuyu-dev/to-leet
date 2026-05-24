@@ -23,6 +23,7 @@ myMaterialTheme = "0.4.0"
 composePwa = "0.6.1"
 spotless = "8.5.1"
 kotlinxCoroutines = "1.11.0"
+detekt = "1.23.8"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -61,3 +62,4 @@ aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "abo
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 composePwa = { id = "dev.yuyuyuyuyu.composepwa", version.ref = "composePwa" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -10,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.composePwa)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.detekt)
 }
 
 spotless {
@@ -21,6 +23,17 @@ spotless {
         target("*.gradle.kts")
         ktlint()
     }
+}
+
+detekt {
+    buildUponDefaultConfig = false
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+}
+
+tasks.register("detektAll") {
+    group = "verification"
+    description = "Runs detekt on all KMP source sets."
+    dependsOn(tasks.withType<Detekt>())
 }
 
 kotlin {
