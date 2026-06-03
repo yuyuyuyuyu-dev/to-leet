@@ -1,18 +1,6 @@
-build:
-  maxIssues: 0
-
-config:
-  validation: true
-
-style:
-  active: true
-  UnusedImports:
-    active: true
-  UnusedParameter:
-    active: true
-  UnusedPrivateClass:
-    active: true
-  UnusedPrivateMember:
-    active: true
-  UnusedPrivateProperty:
-    active: true
+# Minimal overrides on top of detekt's default config (buildUponDefaultConfig = true).
+# Keep this as close to the defaults as possible.
+naming:
+  FunctionNaming:
+    # @Composable functions use PascalCase by convention.
+    ignoreAnnotated: ['Composable']
