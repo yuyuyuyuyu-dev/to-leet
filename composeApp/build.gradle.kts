@@ -45,7 +45,7 @@ spotless {
 }
 
 detekt {
-    buildUponDefaultConfig = false
+    buildUponDefaultConfig = true
     config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
 }
 
@@ -53,6 +53,13 @@ tasks.register("detektAll") {
     group = "verification"
     description = "Runs detekt on all KMP source sets."
     dependsOn(tasks.withType<Detekt>())
+}
+
+// Don't analyze generated sources (e.g. Compose resource accessors live under
+// a `.../generated/resources/` path). A string pattern keeps this compatible
+// with the configuration cache (a Spec lambda would capture the build script).
+tasks.withType<Detekt>().configureEach {
+    exclude("**/generated/**")
 }
 
 kotlin {
