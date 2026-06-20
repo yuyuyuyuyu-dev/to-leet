@@ -30,7 +30,7 @@ class FakeClipboard : Clipboard {
 class CopyToClipboardButtonTest {
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun shouldCopyTextToClipboardWhenClicked() =
+    fun `text is copied to clipboard when button is clicked`() =
         runComposeUiTest {
             val fakeClipboard = FakeClipboard()
             val textToCopy = "12345"
@@ -45,9 +45,9 @@ class CopyToClipboardButtonTest {
 
             onNode(hasClickAction()).performClick()
 
-            // Verification of ClipEntry content is currently difficult in common tests
-            // due to it being an expect class and missing a common API to read back plain text.
-            // But we can verify it's not null and we can execute the flow.
+            // Verifying the ClipEntry content is currently difficult because it is an
+            // expect class with no common API to read back plain text. We can at least
+            // verify it is not null and that the copy flow executes.
             assertEquals(true, fakeClipboard.clipEntry != null)
         }
 }

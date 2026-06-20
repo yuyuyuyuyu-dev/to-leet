@@ -11,7 +11,7 @@ import kotlin.test.Test
 class ToLeetScreenTest {
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun shouldUpdateLeetTextWhenInputTextChanged() =
+    fun `leet text is displayed when input text is entered`() =
         runComposeUiTest {
             setContent {
                 ToLeetScreen(viewModel = ToLeetViewModelImpl())
