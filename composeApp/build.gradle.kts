@@ -117,11 +117,16 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
+        }
+        jvmTest.dependencies {
+            // Compose UI tests run on the JVM (desktop) only. The wasmJs target,
+            // which mirrors production, cannot detect Compose nodes at runtime, so
+            // UI tests live here instead of in commonTest to keep wasmJsTest green.
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
     }
 }
