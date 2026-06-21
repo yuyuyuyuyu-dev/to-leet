@@ -54,9 +54,17 @@ jobs:
       - name: Run detekt
         run: ./gradlew detektAll
 
+  # jvmTest runs the Compose UI tests (desktop) plus the shared logic and
+  # ViewModel tests; wasmJsTest re-runs the shared tests on the production
+  # target. They run as parallel matrix legs (fail-fast disabled) so each
+  # target reports independently instead of one masking the other's result.
   test:
-    name: Test
+    name: Test (${{ matrix.target }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [ jvmTest, wasmJsTest ]
     permissions:
       contents: read
     steps:
@@ -72,8 +80,16 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      # The open-source licenses screen reads a generated, gitignored
+      # aboutlibraries.json resource. Only jvmTest renders that screen, so the
+      # resource is exported on the JVM leg only; wasmJsTest runs the shared
+      # logic/ViewModel tests, which do not touch resources.
+      - name: Export Library Definitions
+        if: matrix.target == 'jvmTest'
+        run: ./gradlew :composeApp:exportLibraryDefinitions -PaboutLibraries.exportPath=src/commonMain/composeResources/files/
+
       - name: Run tests
-        run: ./gradlew wasmJsTest
+        run: ./gradlew :composeApp:${{ matrix.target }}
 
   build:
     name: Build (deploy parity)

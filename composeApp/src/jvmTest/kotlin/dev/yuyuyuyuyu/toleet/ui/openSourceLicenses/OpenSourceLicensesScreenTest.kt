@@ -7,7 +7,7 @@ import kotlin.test.Test
 class OpenSourceLicensesScreenTest {
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun shouldNotCrashWhenRendering() =
+    fun `screen renders without crashing`() =
         runComposeUiTest {
             setContent {
                 OpenSourceLicensesScreen()
