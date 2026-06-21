@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.NativeClipboard
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -44,6 +44,10 @@ class CopyToClipboardButtonTest {
             }
 
             onNode(hasClickAction()).performClick()
+            // The click launches a coroutine to write the clipboard. The v2 test
+            // API uses StandardTestDispatcher, so that coroutine is queued rather
+            // than run immediately; wait for it to settle before asserting.
+            waitForIdle()
 
             // Verifying the ClipEntry content is currently difficult because it is an
             // expect class with no common API to read back plain text. We can at least

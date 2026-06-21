@@ -110,13 +110,21 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
-        jvmTest.dependencies {
-            // Compose UI tests run on the JVM (desktop) only. The wasmJs target,
-            // which mirrors production, cannot detect Compose nodes at runtime, so
-            // UI tests live here instead of in commonTest to keep wasmJsTest green.
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+        // Compose UI tests run on both jvm (desktop) and wasmJs — both detect
+        // Compose nodes at runtime (verified on Compose Multiplatform 1.12). They
+        // are written once in this intermediate source set and shared by jvmTest
+        // and wasmJsTest. The js target cannot host them (its test runtime fails),
+        // so it is intentionally excluded; commonTest stays UI-free and runs on
+        // every target, including js.
+        val uiSharedTest by creating {
+            dependsOn(commonTest.get())
+            dependencies {
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.uiTest)
+            }
         }
+        jvmTest.get().dependsOn(uiSharedTest)
+        wasmJsTest.get().dependsOn(uiSharedTest)
     }
 }
 
