@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.aboutLibraries)
@@ -63,12 +62,6 @@ tasks.withType<Detekt>().configureEach {
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
-
     jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -92,10 +85,6 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.activity.compose)
-        }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -121,13 +110,21 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
-        jvmTest.dependencies {
-            // Compose UI tests run on the JVM (desktop) only. The wasmJs target,
-            // which mirrors production, cannot detect Compose nodes at runtime, so
-            // UI tests live here instead of in commonTest to keep wasmJsTest green.
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+        // Compose UI tests run on both jvm (desktop) and wasmJs — both detect
+        // Compose nodes at runtime (verified on Compose Multiplatform 1.12). They
+        // are written once in this intermediate source set and shared by jvmTest
+        // and wasmJsTest. The js target cannot host them (its test runtime fails),
+        // so it is intentionally excluded; commonTest stays UI-free and runs on
+        // every target, including js.
+        val uiSharedTest by creating {
+            dependsOn(commonTest.get())
+            dependencies {
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.uiTest)
+            }
         }
+        jvmTest.get().dependsOn(uiSharedTest)
+        wasmJsTest.get().dependsOn(uiSharedTest)
     }
 }
 
@@ -135,44 +132,4 @@ compose.desktop {
     application {
         mainClass = "dev.yuyuyuyuyu.toleet.MainKt"
     }
-}
-
-android {
-    namespace = "dev.yuyuyuyuyu.toleet"
-    compileSdk =
-        libs.versions.android.compileSdk
-            .get()
-            .toInt()
-
-    defaultConfig {
-        applicationId = "dev.yuyuyuyuyu.toleet"
-        minSdk =
-            libs.versions.android.minSdk
-                .get()
-                .toInt()
-        targetSdk =
-            libs.versions.android.targetSdk
-                .get()
-                .toInt()
-        versionCode = 1
-        versionName = "1.0"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
-dependencies {
-    debugImplementation(libs.compose.uiTooling)
 }
