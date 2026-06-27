@@ -1,0 +1,23 @@
+name: Dependabot auto-merge
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    name: Auto-merge
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      # Turns on GitHub's native auto-merge for the PR. Branch protection still
+      # applies, so the PR only merges once required checks pass and the required
+      # CODEOWNERS review is approved. With the merge queue enabled this enqueues
+      # the PR ("merge when ready") instead of merging immediately.
+      - name: Enable auto-merge
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
