@@ -1,10 +1,6 @@
 name: Dependabot auto-merge
 
-# Turns on GitHub's native auto-merge for a Dependabot PR only after the repo
-# owner approves it. The approval is the gate: nothing merges without it. Once
-# enabled, branch protection still applies, so the PR merges only after the
-# required checks pass; if it falls behind main, Dependabot rebases it and CI
-# re-runs before it lands.
+# Enable auto-merge on a Dependabot PR once the owner approves it.
 on:
   pull_request_review:
     types: [submitted]
@@ -17,8 +13,7 @@ jobs:
   auto-merge:
     name: Auto-merge
     runs-on: ubuntu-latest
-    # Only on an approving review, only for Dependabot's PRs, and only when the
-    # reviewer is a trusted member (guards public-repo reviews from outsiders).
+    # author_association guards against outside-contributor approvals on public repos.
     if: >
       github.event.review.state == 'approved' &&
       github.event.pull_request.user.login == 'dependabot[bot]' &&
