@@ -62,6 +62,12 @@ tasks.withType<Detekt>().configureEach {
 }
 
 kotlin {
+    // The custom .dependsOn() wiring below (uiSharedTest) stops Kotlin from applying
+    // the default hierarchy template automatically, which silently drops the webMain
+    // source set — and with it src/webMain/resources (index.html, the PWA assets) and
+    // the web Main.kt. Apply the template explicitly so webMain keeps existing.
+    applyDefaultHierarchyTemplate()
+
     jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
