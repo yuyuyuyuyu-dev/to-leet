@@ -35,7 +35,7 @@ jobs:
           distribution: 'jetbrains'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
+        uses: gradle/actions/setup-gradle@v6.3.0
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -61,7 +61,7 @@ jobs:
           distribution: 'jetbrains'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
+        uses: gradle/actions/setup-gradle@v6.3.0
 
       - name: Run detekt
         run: ./gradlew detektAll
@@ -91,7 +91,7 @@ jobs:
           distribution: 'jetbrains'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
+        uses: gradle/actions/setup-gradle@v6.3.0
 
       # The open-source licenses screen reads a generated, gitignored
       # aboutlibraries.json resource. The UI tests that render it run on jvmTest
@@ -120,7 +120,7 @@ jobs:
           distribution: 'jetbrains'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
+        uses: gradle/actions/setup-gradle@v6.3.0
 
       - name: Export Library Definitions
         run: ./gradlew :composeApp:exportLibraryDefinitions -PaboutLibraries.exportPath=src/commonMain/composeResources/files/
