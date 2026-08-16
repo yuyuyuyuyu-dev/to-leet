@@ -106,8 +106,7 @@ kotlin {
             implementation(libs.jetbrains.material3.adaptiveNavigation3)
             implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.simpleTopAppBar)
-            implementation(libs.myMaterialTheme)
+            implementation(libs.myComposables)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
