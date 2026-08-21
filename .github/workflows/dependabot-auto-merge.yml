@@ -1,0 +1,39 @@
+name: Dependabot Auto Merge
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  auto-merge:
+    name: Auto Merge
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3
+
+      # A run triggered by Dependabot cannot read Actions secrets, so the App
+      # private key has to be stored in the Dependabot secret store as well.
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.PR_BOT_APP_ID }}
+          private-key: ${{ secrets.PR_BOT_PRIVATE_KEY }}
+
+      # update-type is the highest bump the pull request makes, so a grouped
+      # pull request is only merged when every update in it is minor or patch.
+      #
+      # The merge is armed with the App token because a merge armed with
+      # GITHUB_TOKEN produces a push that triggers no workflow, which would
+      # leave the merge commit on main without a CI run and without a deploy.
+      - name: Enable auto-merge
+        if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash "$PR_URL"
