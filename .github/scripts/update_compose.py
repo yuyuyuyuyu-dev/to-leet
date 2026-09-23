@@ -15,14 +15,6 @@ ADAPTIVE_KEY = "compose-multiplatform-adaptive"
 COMPOSE_PLUGIN_GROUP = "org.jetbrains.compose"
 MATERIAL3_GROUP = "org.jetbrains.compose.material3"
 ADAPTIVE_GROUP = "org.jetbrains.compose.material3.adaptive"
-COMPOSE_GROUPS = {
-    "org.jetbrains.compose.runtime",
-    "org.jetbrains.compose.ui",
-    "org.jetbrains.compose.foundation",
-    "org.jetbrains.compose.animation",
-    "org.jetbrains.compose.material",
-    "org.jetbrains.compose.components",
-}
 CHANGELOG_GRACE = timedelta(days=3)
 VERSION = re.compile(r"(\d+)\.(\d+)\.(\d+)(?:-(alpha|beta|rc)(\d+))?")
 STAGES = {"alpha": 0, "beta": 1, "rc": 2, None: 3}
@@ -70,7 +62,8 @@ def compose_requirement(material3):
         dependency.get("version", {}).get("requires") or dependency.get("version", {}).get("strictly")
         for variant in module.get("variants", [])
         for dependency in variant.get("dependencies", [])
-        if dependency.get("group") in COMPOSE_GROUPS
+        if dependency.get("group", "").startswith(f"{COMPOSE_PLUGIN_GROUP}.")
+        and not dependency.get("group", "").startswith(MATERIAL3_GROUP)
     ]
     keys = [version_key(version) for version in required]
     if not keys or None in keys:
