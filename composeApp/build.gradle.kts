@@ -154,7 +154,10 @@ dependencies {
             "org.jetbrains.compose.foundation:foundation",
             "org.jetbrains.compose.animation:animation",
             "org.jetbrains.compose.material:material-ripple",
+            "org.jetbrains.compose.components:components-animatedimage",
             "org.jetbrains.compose.components:components-resources",
+            "org.jetbrains.compose.components:components-splitpane",
+            "org.jetbrains.compose.components:components-ui-tooling-preview",
         ).forEach { module ->
             add("commonMainImplementation", module) {
                 version { reject("($composeVersion,)") }
