@@ -1,0 +1,118 @@
+name: Compose Update
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: compose-update
+  cancel-in-progress: true
+
+jobs:
+  resolve:
+    name: Resolve versions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.versions.outputs.changed }}
+      notice: ${{ steps.versions.outputs.notice }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup JDK
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'jetbrains'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.3.0
+
+      - name: Resolve versions
+        id: versions
+        run: python3 .github/scripts/update_compose.py
+
+      - name: Update yarn.lock
+        if: steps.versions.outputs.changed == 'true'
+        run: ./gradlew kotlinWasmUpgradeYarnLock
+
+      - name: Upload changes
+        if: steps.versions.outputs.changed == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: compose-update
+          path: |
+            gradle/libs.versions.toml
+            kotlin-js-store/wasm/yarn.lock
+            compose-update.md
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    name: Publish
+    needs: resolve
+    if: needs.resolve.outputs.changed == 'true' || needs.resolve.outputs.notice != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        if: needs.resolve.outputs.changed == 'true'
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.PR_BOT_APP_ID }}
+          private-key: ${{ secrets.PR_BOT_PRIVATE_KEY }}
+
+      - name: Checkout
+        if: needs.resolve.outputs.changed == 'true'
+        uses: actions/checkout@v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Download changes
+        if: needs.resolve.outputs.changed == 'true'
+        uses: actions/download-artifact@v8
+        with:
+          name: compose-update
+
+      - name: Create pull request
+        id: pull-request
+        if: needs.resolve.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          add-paths: |
+            gradle/libs.versions.toml
+            kotlin-js-store/wasm/yarn.lock
+          branch: chore/update-compose
+          delete-branch: true
+          commit-message: 'build(deps): update Compose Multiplatform'
+          title: 'build(deps): update Compose Multiplatform'
+          body-path: compose-update.md
+
+      - name: Enable auto-merge
+        if: steps.pull-request.outputs.pull-request-operation == 'created' || steps.pull-request.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_URL: ${{ steps.pull-request.outputs.pull-request-url }}
+        run: gh pr merge --auto --squash "$PR_URL"
+
+      - name: Report Material3 Adaptive
+        if: needs.resolve.outputs.notice != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTICE: ${{ needs.resolve.outputs.notice }}
+          TITLE: Material3 Adaptive was not updated automatically
+          FOLLOW_UP: The Compose Update workflow keeps the current Material3 Adaptive version and tries again every day. Compose Multiplatform and material3 are still updated.
+        run: |
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title \"$TITLE\"" --json number --jq length)
+          if [ "$open" = "0" ]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$(printf '%s\n\n%s\n' "$NOTICE" "$FOLLOW_UP")"
+          fi
