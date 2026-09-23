@@ -138,3 +138,27 @@ compose.desktop {
         mainClass = "dev.yuyuyuyuyu.toleet.MainKt"
     }
 }
+
+val composeVersion = libs.versions.composeMultiplatform.get()
+val material3Version = libs.versions.material3.get()
+
+check(material3Version.split(".").take(2) == composeVersion.split(".").take(2)) {
+    "material3 $material3Version must be on the same line as Compose Multiplatform $composeVersion."
+}
+
+dependencies {
+    constraints {
+        listOf(
+            "org.jetbrains.compose.runtime:runtime",
+            "org.jetbrains.compose.ui:ui",
+            "org.jetbrains.compose.foundation:foundation",
+            "org.jetbrains.compose.animation:animation",
+            "org.jetbrains.compose.material:material-ripple",
+            "org.jetbrains.compose.components:components-resources",
+        ).forEach { module ->
+            add("commonMainImplementation", module) {
+                version { reject("($composeVersion,)") }
+            }
+        }
+    }
+}
