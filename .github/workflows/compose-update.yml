@@ -56,15 +56,15 @@ jobs:
   publish:
     name: Publish
     needs: resolve
-    if: needs.resolve.outputs.changed == 'true' || needs.resolve.outputs.notice != ''
     runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write
+    env:
+      BRANCH: chore/update-compose
     steps:
       - name: Create GitHub App token
         id: app-token
-        if: needs.resolve.outputs.changed == 'true'
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ vars.PR_BOT_APP_ID }}
@@ -91,7 +91,7 @@ jobs:
           add-paths: |
             gradle/libs.versions.toml
             kotlin-js-store/wasm/yarn.lock
-          branch: chore/update-compose
+          branch: ${{ env.BRANCH }}
           delete-branch: true
           commit-message: 'build(deps): update Compose Multiplatform'
           title: 'build(deps): update Compose Multiplatform'
@@ -103,6 +103,17 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_URL: ${{ steps.pull-request.outputs.pull-request-url }}
         run: gh pr merge --auto --squash "$PR_URL"
+
+      - name: Close outdated pull request
+        if: needs.resolve.outputs.changed == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REASON: Closing because main already has the Compose Multiplatform, material3 and Material3 Adaptive versions this pull request would set.
+        run: |
+          pr=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')
+          if [ -n "$pr" ]; then
+            gh pr close "$pr" --repo "$GITHUB_REPOSITORY" --delete-branch --comment "$REASON"
+          fi
 
       - name: Report Material3 Adaptive
         if: needs.resolve.outputs.notice != ''
