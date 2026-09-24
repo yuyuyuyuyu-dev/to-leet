@@ -1,3 +1,4 @@
+import email.utils
 import json
 import os
 import re
@@ -85,16 +86,20 @@ def select_material3(compose):
 
 
 def released_at(compose):
-    listing = fetch(f"{artifact_url(COMPOSE_PLUGIN_GROUP, 'compose-gradle-plugin')}/")
-    match = re.search(rf'href="{re.escape(compose)}/"[^>]*>[^<]*</a>\s+(\d{{4}}-\d{{2}}-\d{{2}} \d{{2}}:\d{{2}})', listing)
-    if not match:
+    url = f"{artifact_url(COMPOSE_PLUGIN_GROUP, 'compose-gradle-plugin')}/{compose}/compose-gradle-plugin-{compose}.pom"
+    request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "compose-update"})
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return email.utils.parsedate_to_datetime(response.headers["Last-Modified"])
+    except (OSError, TypeError, ValueError):
         return None
-    return datetime.strptime(match.group(1), "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
 
 
 def overdue_notice(compose, reason):
     released = released_at(compose)
-    if released is None or datetime.now(timezone.utc) - released < CHANGELOG_GRACE:
+    if released is None:
+        return f"{reason} The release date of Compose Multiplatform {compose} could not be read."
+    if datetime.now(timezone.utc) - released < CHANGELOG_GRACE:
         return ""
     return f"{reason} Compose Multiplatform {compose} was released on {released:%Y-%m-%d}."
 
