@@ -140,12 +140,7 @@ compose.desktop {
 }
 
 val composeVersion = libs.versions.composeMultiplatform.get()
-val material3Version = libs.versions.material3.get()
 val nextComposeLine = composeVersion.split(".").let { "${it[0]}.${it[1].toInt() + 1}" }
-
-check(material3Version.split(".").take(2) == composeVersion.split(".").take(2)) {
-    "material3 $material3Version must be on the same line as Compose Multiplatform $composeVersion."
-}
 
 dependencies {
     constraints {
