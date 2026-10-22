@@ -3,4 +3,14 @@
 naming:
   FunctionNaming:
     # @Composable functions use PascalCase by convention.
-    ignoreAnnotated: ['Composable']
+    ignoreAnnotated: ["Composable"]
+    excludes:
+      - "**/test/**"
+      - "**/androidTest/**"
+      - "**/commonTest/**"
+      - "**/jvmTest/**"
+      - "**/androidUnitTest/**"
+      - "**/androidInstrumentedTest/**"
+      - "**/jsTest/**"
+      - "**/iosTest/**"
+      - "**/uiSharedTest/**"
