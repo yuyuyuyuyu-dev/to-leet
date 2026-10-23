@@ -1,16 +1,3 @@
-# Minimal overrides on top of detekt's default config (buildUponDefaultConfig = true).
-# Keep this as close to the defaults as possible.
 naming:
   FunctionNaming:
-    # @Composable functions use PascalCase by convention.
     ignoreAnnotated: ["Composable"]
-    excludes:
-      - "**/test/**"
-      - "**/androidTest/**"
-      - "**/commonTest/**"
-      - "**/jvmTest/**"
-      - "**/androidUnitTest/**"
-      - "**/androidInstrumentedTest/**"
-      - "**/jsTest/**"
-      - "**/iosTest/**"
-      - "**/uiSharedTest/**"
