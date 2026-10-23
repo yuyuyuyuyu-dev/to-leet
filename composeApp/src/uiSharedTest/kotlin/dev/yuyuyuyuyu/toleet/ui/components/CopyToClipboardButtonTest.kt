@@ -30,7 +30,7 @@ class FakeClipboard : Clipboard {
 class CopyToClipboardButtonTest {
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun `text is copied to clipboard when button is clicked`() =
+    fun textIsCopiedToClipboardWhenButtonIsClicked() =
         runComposeUiTest {
             val fakeClipboard = FakeClipboard()
             val textToCopy = "12345"

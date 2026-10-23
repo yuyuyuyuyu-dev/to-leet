@@ -2,9 +2,15 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
 
 jobs:
   actionlint:
@@ -19,52 +25,19 @@ jobs:
       - name: Run actionlint
         uses: raven-actions/actionlint@v2
 
-  format:
-    name: Format Check
-    runs-on: ubuntu-latest
+  oxfmt:
+    name: Oxfmt
     permissions:
       contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+    uses: yuyuyuyuyu-dev/repo-config/.github/workflows/oxfmt.yml@main
 
-      - name: Setup JDK
-        uses: actions/setup-java@v6
-        with:
-          java-version: '21'
-          distribution: 'jetbrains'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.4.0
-
-      - name: Setup Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: '22'
-
-      - name: Run spotlessCheck
-        run: ./gradlew spotlessCheck
-
-  detekt:
-    name: Detekt
-    runs-on: ubuntu-latest
+  kotlin-lint:
+    name: Kotlin lint
     permissions:
       contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Setup JDK
-        uses: actions/setup-java@v6
-        with:
-          java-version: '21'
-          distribution: 'jetbrains'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.4.0
-
-      - name: Run detekt
-        run: ./gradlew detektAll
+    uses: yuyuyuyuyu-dev/repo-config/.github/workflows/kotlin-lint.yml@main
+    with:
+      compose-multiplatform: true
 
   # jvmTest and wasmJsTest both run the shared Compose UI tests plus the logic
   # and ViewModel tests; wasmJsTest does so on the production target. jsTest runs
@@ -77,29 +50,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [ jvmTest, wasmJsTest, jsTest ]
+        target: [jvmTest, wasmJsTest, jsTest]
     permissions:
       contents: read
     steps:
-      - name: Checkout
+      - name: Check out the repository
         uses: actions/checkout@v7
-
-      - name: Setup JDK
-        uses: actions/setup-java@v6
         with:
-          java-version: '21'
-          distribution: 'jetbrains'
+          persist-credentials: false
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.4.0
-
-      # The open-source licenses screen reads a generated, gitignored
-      # aboutlibraries.json resource. The UI tests that render it run on jvmTest
-      # and wasmJsTest, so the resource is exported for both. jsTest runs only the
-      # logic/ViewModel tests, which do not touch resources.
-      - name: Export Library Definitions
-        if: matrix.target != 'jsTest'
-        run: ./gradlew :composeApp:exportLibraryDefinitions -PaboutLibraries.exportPath=src/commonMain/composeResources/files/
+      - name: Set up the JDK and Gradle
+        uses: yuyuyuyuyu-dev/repo-config/.github/actions/setup-jdk-and-gradle@main
+        with:
+          compose-multiplatform: true
 
       - name: Run tests
         run: ./gradlew :composeApp:${{ matrix.target }}
@@ -110,20 +73,15 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout
+      - name: Check out the repository
         uses: actions/checkout@v7
-
-      - name: Setup JDK
-        uses: actions/setup-java@v6
         with:
-          java-version: '21'
-          distribution: 'jetbrains'
+          persist-credentials: false
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.4.0
-
-      - name: Export Library Definitions
-        run: ./gradlew :composeApp:exportLibraryDefinitions -PaboutLibraries.exportPath=src/commonMain/composeResources/files/
+      - name: Set up the JDK and Gradle
+        uses: yuyuyuyuyu-dev/repo-config/.github/actions/setup-jdk-and-gradle@main
+        with:
+          compose-multiplatform: true
 
       - name: Build (wasmJs production distribution)
         run: ./gradlew :composeApp:wasmJsBrowserDistribution
