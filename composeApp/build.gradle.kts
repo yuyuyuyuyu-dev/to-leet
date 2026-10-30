@@ -94,13 +94,13 @@ kotlin {
         // and wasmJsTest. The js target cannot host them (its test runtime fails),
         // so it is intentionally excluded; commonTest stays UI-free and runs on
         // every target, including js.
-        val uiSharedTest by creating {
-            dependsOn(commonTest.get())
-            dependencies {
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.uiTest)
+        val uiSharedTest =
+            create("uiSharedTest") {
+                dependsOn(commonTest.get())
+                dependencies {
+                    implementation(libs.compose.uiTest)
+                }
             }
-        }
         jvmTest.get().dependsOn(uiSharedTest)
         wasmJsTest.get().dependsOn(uiSharedTest)
     }
