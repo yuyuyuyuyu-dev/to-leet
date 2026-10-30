@@ -37,6 +37,10 @@ kotlin {
     // the web Main.kt. Apply the template explicitly so webMain keeps existing.
     applyDefaultHierarchyTemplate()
 
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+
     jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
