@@ -1,11 +1,9 @@
 package dev.yuyuyuyuyu.toleet.ui.components
 
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
 import androidx.compose.ui.platform.LocalClipboard
-import androidx.compose.ui.platform.NativeClipboard
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.performClick
@@ -13,7 +11,6 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalComposeUiApi::class)
 class FakeClipboard : Clipboard {
     var clipEntry: ClipEntry? = null
 
@@ -22,9 +19,6 @@ class FakeClipboard : Clipboard {
     override suspend fun setClipEntry(clipEntry: ClipEntry?) {
         this.clipEntry = clipEntry
     }
-
-    override val nativeClipboard: NativeClipboard
-        get() = TODO("Not implemented in FakeClipboard")
 }
 
 class CopyToClipboardButtonTest {

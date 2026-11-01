@@ -2,8 +2,6 @@ package dev.yuyuyuyuyu.toleet.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
@@ -14,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.unit.dp
+import io.github.hlcaptain.symbols.material.Icons
+import io.github.hlcaptain.symbols.material.outlined.vectors.ContentCopy
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import toleet.composeapp.generated.resources.Res
@@ -49,7 +49,7 @@ fun CopyToClipboardButton(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(Icons.Default.ContentCopy, contentDescription = copyToClipboardButtonText)
+            Icon(Icons.Outlined.Filled.ContentCopy, contentDescription = copyToClipboardButtonText)
             Text(copyToClipboardButtonText)
         }
     }

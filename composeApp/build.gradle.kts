@@ -37,6 +37,10 @@ kotlin {
     // the web Main.kt. Apply the template explicitly so webMain keeps existing.
     applyDefaultHierarchyTemplate()
 
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+
     jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -70,7 +74,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.aboutlibraries.compose.m3)
-            implementation(compose.materialIconsExtended)
+            implementation(libs.symbols.materialVectorsOutlined)
             implementation(libs.jetbrains.navigation3.ui)
             implementation(libs.jetbrains.material3.adaptiveNavigation3)
             implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
@@ -90,13 +94,13 @@ kotlin {
         // and wasmJsTest. The js target cannot host them (its test runtime fails),
         // so it is intentionally excluded; commonTest stays UI-free and runs on
         // every target, including js.
-        val uiSharedTest by creating {
-            dependsOn(commonTest.get())
-            dependencies {
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.uiTest)
+        val uiSharedTest =
+            create("uiSharedTest") {
+                dependsOn(commonTest.get())
+                dependencies {
+                    implementation(libs.compose.uiTest)
+                }
             }
-        }
         jvmTest.get().dependsOn(uiSharedTest)
         wasmJsTest.get().dependsOn(uiSharedTest)
     }
