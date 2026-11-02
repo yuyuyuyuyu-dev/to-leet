@@ -1,6 +1,4 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -31,30 +29,8 @@ detekt {
 }
 
 kotlin {
-    // The custom .dependsOn() wiring below (uiSharedTest) stops Kotlin from applying
-    // the default hierarchy template automatically, which silently drops the webMain
-    // source set — and with it src/webMain/resources (index.html, the PWA assets) and
-    // the web Main.kt. Apply the template explicitly so webMain keeps existing.
-    applyDefaultHierarchyTemplate()
-
     compilerOptions {
         allWarningsAsErrors.set(true)
-    }
-
-    jvm {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        mainRun {
-            mainClass.set("dev.yuyuyuyuyu.toleet.MainKt")
-        }
-    }
-
-    js {
-        browser()
-        binaries.executable()
     }
 
     @OptIn(ExperimentalWasmDsl::class)
@@ -85,24 +61,9 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
         }
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
+        wasmJsTest.dependencies {
+            implementation(libs.compose.uiTest)
         }
-        // Compose UI tests run on both jvm (desktop) and wasmJs — both detect
-        // Compose nodes at runtime (verified on Compose Multiplatform 1.12). They
-        // are written once in this intermediate source set and shared by jvmTest
-        // and wasmJsTest. The js target cannot host them (its test runtime fails),
-        // so it is intentionally excluded; commonTest stays UI-free and runs on
-        // every target, including js.
-        val uiSharedTest =
-            create("uiSharedTest") {
-                dependsOn(commonTest.get())
-                dependencies {
-                    implementation(libs.compose.uiTest)
-                }
-            }
-        jvmTest.get().dependsOn(uiSharedTest)
-        wasmJsTest.get().dependsOn(uiSharedTest)
     }
 }
 
@@ -120,12 +81,6 @@ compose.resources {
                 .named("exportLibraryDefinitions")
                 .map { layout.projectDirectory.dir("src/commonMain/composeResources") },
     )
-}
-
-compose.desktop {
-    application {
-        mainClass = "dev.yuyuyuyuyu.toleet.MainKt"
-    }
 }
 
 val composeVersion = libs.versions.composeMultiplatform.get()

@@ -39,18 +39,9 @@ jobs:
     with:
       compose-multiplatform: true
 
-  # jvmTest and wasmJsTest both run the shared Compose UI tests plus the logic
-  # and ViewModel tests; wasmJsTest does so on the production target. jsTest runs
-  # the logic/ViewModel tests on the old-browser fallback runtime (js cannot host
-  # Compose UI tests). They run as parallel matrix legs (fail-fast disabled) so
-  # each target reports independently instead of one masking the other's result.
   test:
-    name: Test (${{ matrix.target }})
+    name: Test
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [jvmTest, wasmJsTest, jsTest]
     permissions:
       contents: read
     steps:
@@ -65,7 +56,7 @@ jobs:
           compose-multiplatform: true
 
       - name: Run tests
-        run: ./gradlew :composeApp:${{ matrix.target }}
+        run: ./gradlew allTests
 
   build:
     name: Build (deploy parity)
