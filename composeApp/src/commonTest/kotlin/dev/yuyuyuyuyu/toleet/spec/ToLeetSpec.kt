@@ -12,7 +12,7 @@ import kotlin.test.Test
 class ToLeetSpec {
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun `entering A-Z and a-z displays them in leet`() =
+    fun `should display A-Z and a-z in leet when they are entered`() =
         runComposeUiTest {
             // Arrange
             setContent {
