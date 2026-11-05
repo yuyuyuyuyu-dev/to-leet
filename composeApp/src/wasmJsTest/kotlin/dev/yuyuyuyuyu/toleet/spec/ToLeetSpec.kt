@@ -1,6 +1,7 @@
 package dev.yuyuyuyuyu.toleet.spec
 
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
 import androidx.compose.ui.platform.LocalClipboard
@@ -14,7 +15,10 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import dev.yuyuyuyuyu.toleet.App
+import kotlinx.coroutines.await
 import org.jetbrains.compose.resources.getString
+import org.w3c.fetch.Response
+import org.w3c.files.Blob
 import toleet.composeapp.generated.resources.Res
 import toleet.composeapp.generated.resources.copy_to_clipboard
 import kotlin.test.Test
@@ -69,4 +73,13 @@ private class FakeClipboard : Clipboard {
     override suspend fun setClipEntry(clipEntry: ClipEntry?) {
         this.clipEntry = clipEntry
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalWasmJsInterop::class)
+private suspend fun ClipEntry.readPlainText(): String {
+    val blob =
+        checkNotNull(clipboardItems[0])
+            .getType("text/plain".toJsString())
+            .await<Blob>()
+    return Response(blob).text().await<JsString>().toString()
 }
