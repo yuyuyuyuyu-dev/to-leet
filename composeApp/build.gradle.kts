@@ -57,11 +57,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.myComposables)
         }
-        commonTest.dependencies {
+        wasmJsTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
-        }
-        wasmJsTest.dependencies {
             implementation(libs.compose.uiTest)
         }
     }
