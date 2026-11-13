@@ -57,6 +57,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.myComposables)
         }
+        webMain.dependencies {
+            implementation(libs.kotlinx.browser)
+        }
         wasmJsTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)

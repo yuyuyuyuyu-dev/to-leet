@@ -1,4 +1,5 @@
 <resources>
+    <string name="language_tag">en</string>
     <string name="app_name">ToLeet</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
