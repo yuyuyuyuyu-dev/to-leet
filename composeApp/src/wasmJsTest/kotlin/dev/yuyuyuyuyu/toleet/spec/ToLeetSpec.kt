@@ -15,14 +15,20 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import dev.yuyuyuyuyu.toleet.App
+import kotlinx.browser.window
 import kotlinx.coroutines.await
+import kotlinx.coroutines.test.runTest
 import org.jetbrains.compose.resources.getString
+import org.w3c.dom.Document
+import org.w3c.dom.parsing.DOMParser
 import org.w3c.fetch.Response
 import org.w3c.files.Blob
 import toleet.composeapp.generated.resources.Res
 import toleet.composeapp.generated.resources.copy_to_clipboard
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class ToLeetSpec {
     @OptIn(ExperimentalTestApi::class)
@@ -63,6 +69,31 @@ class ToLeetSpec {
             // Assert
             assertEquals("l33t", clipboard.clipEntry?.readPlainText())
         }
+
+    @Test
+    fun `should ask browsers not to offer to translate the page`() =
+        runTest {
+            // Act
+            val page = loadPage()
+
+            // Assert
+            val root = checkNotNull(page.documentElement)
+            assertEquals("no", root.getAttribute("translate"))
+            assertTrue(root.classList.contains("notranslate"))
+            assertNotNull(page.querySelector("meta[name='google'][content='notranslate']"))
+        }
+}
+
+@OptIn(ExperimentalWasmJsInterop::class)
+private suspend fun loadPage(): Document {
+    val html =
+        window
+            .fetch("/base/kotlin/index.html")
+            .await<Response>()
+            .text()
+            .await<JsString>()
+            .toString()
+    return DOMParser().parseFromString(html, "text/html".toJsString())
 }
 
 private class FakeClipboard : Clipboard {
