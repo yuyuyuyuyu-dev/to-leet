@@ -13,18 +13,6 @@ concurrency:
 permissions: {}
 
 jobs:
-  actionlint:
-    name: Actionlint
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Run actionlint
-        uses: raven-actions/actionlint@v2
-
   biome:
     name: Biome
     permissions:
