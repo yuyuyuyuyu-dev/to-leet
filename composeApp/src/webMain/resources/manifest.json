@@ -1,6 +1,6 @@
 {
-	"name": "ToLeet",
-	"short_name": "ToLeet",
+	"name": ".toLeet",
+	"short_name": ".toLeet",
 	"theme_color": "#FFF8F5",
 	"background_color": "#FFF8F5",
 	"display": "standalone",

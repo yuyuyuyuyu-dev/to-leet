@@ -1,4 +1,4 @@
-# ToLeet
+# .toLeet
 
 [![Deploy](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/deploy.yml/badge.svg)](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/deploy.yml)
 [![CI](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/ci.yml/badge.svg)](https://github.com/yuyuyuyuyu-dev/to-leet/actions/workflows/ci.yml)
